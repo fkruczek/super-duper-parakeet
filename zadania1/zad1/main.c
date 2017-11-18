@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-void swap(int,int);
 int main()
 {
     int bokA,bokB,bokC;
@@ -20,7 +19,7 @@ int main()
                        }
                     else pole=0;
                 }
-                if(bokB>=bokA && bokB>=bokC)
+                else if(bokB>=bokA && bokB>=bokC)
                 {
                     if((bokB*bokB)==((bokA*bokA)+(bokC*bokC)))
                        {
@@ -28,7 +27,7 @@ int main()
                        }
                     else pole=0;
                 }
-                if(bokC>=bokB && bokC>=bokA)
+                else if(bokC>=bokB && bokC>=bokA)
                 {
                     if((bokC*bokC)==((bokB*bokB)+(bokA*bokA)))
                        {
