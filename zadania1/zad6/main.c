@@ -5,11 +5,11 @@ int dodawacz(int);
 int main()
 {
     int n;
-    while(n>=1){
+    while(1){
         scanf("%d",&n);
+        if(n<1) break;
         printf("%d",dodawacz(n));
     }
-    getch();
     return 0;
 }
 int dodawacz(int n)
