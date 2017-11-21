@@ -17,7 +17,7 @@ int main()
             break;
         }
     }
-    if(i-1==srodek)printf("%s To jest palindrom\m",jakisNapis);
+    if(i-1==srodek)printf("To jest palindrom\n");
     getch();
     return 0;
 }
