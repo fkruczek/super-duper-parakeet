@@ -36,8 +36,11 @@ int main()
     //printf("adres x1: %d\n",x1);
    // printf("adres x2: %d\n",x2);
 
-    printf("Pomieszany wyraz: %s\n", pomieszaj_wyraz(x1,x2));
+    printf("Pomieszany wyraz: %s\n", pomieszaj_wyraz(x1,x2)); //funkcja wysyla adresy lancuchow
 
+    free(pomieszaj_wyraz(x1,x2));
+    free(x1);
+    free(x2);
 
     system("pause");
     return 0;
@@ -46,10 +49,10 @@ int main()
 char *pomieszaj_wyraz(char *napis1,char *napis2) //"char *" mozna zastapic int bez *
 {
     char *nowy_napis;
-    int i,j=0,k=0;
+    int i=0,j=0,k=0;
     int a=strlen(napis1),b=strlen(napis2);
     nowy_napis=(char*)malloc((a+b)*sizeof(*nowy_napis));
-    for(i=0;i<a+b;)
+    for(;i<a+b;)
     {
         if(*(napis1+j)!='\0')
         {
