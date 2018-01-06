@@ -22,17 +22,35 @@ int main()
 {
     int i, il_najlepszych=0;
     struct student *najlepsi_studenci=NULL;
-    dodaj();
-    dodaj();
-    dodaj();
-    drukuj_plik();
-    printf("\nNazwiska osob, ktore maja maksymalna srednia wynoszaca %lf to: \n", maksimum());
-    najlepsi_studenci=najlepsi(&il_najlepszych);
-    for (i=0; i<il_najlepszych; i++){
-        printf("%s\n",(*(najlepsi_studenci+i)).nazwisko);
-    }
-    printf("Usunieto %d studentow\n",usun());
-    drukuj_plik();
+    char wybor;
+    do{
+        system("cls");
+        printf("MENU:\n1. Dodaj\n2. Drukuj\n3. Wyswietl najlepszych\n4. Usun najgorszych\n5. Popraw\n");
+        wybor=getchar();
+        switch (wybor){
+            case '1':
+                dodaj();
+                break;
+
+            case '2':
+                drukuj_plik();
+                break;
+
+            case '3':
+                printf("\nNazwiska osob, ktore maja maksymalna srednia wynoszaca %lf to: \n", maksimum());
+                najlepsi_studenci=najlepsi(&il_najlepszych);
+                for (i=0; i<il_najlepszych; i++)
+                    printf("%s\n",(*(najlepsi_studenci+i)).nazwisko);
+                break;
+
+            case '4':
+                printf("Usunieto %d studentow\n",usun());
+                break;
+            case '5':
+                popraw();
+                break;
+        }
+    }while(wybor!='q');
     return 0;
 }
 void dodaj(void)
@@ -73,6 +91,7 @@ void drukuj_plik()
         printf("\n");
     }
     fclose(studenci);
+    getch();
 }
 void drukuj(struct student s)
 {
@@ -165,4 +184,39 @@ int usun(void)
     remove(FILENAME);
     rename("nowy.bin", FILENAME);
     return usunietych;
+}
+
+void popraw(void)
+{
+    struct student s, pusta;
+    int indeks,i;
+    FILE *studenci;
+    studenci = fopen(FILENAME, "rb+");
+    printf("Podaj indeks studenta ktorego chcesz edytowac: ");
+    scanf("%d", &indeks);
+    while(fread(&s, sizeof(struct student), 1, studenci)==1)
+    {
+        if(s.numer==indeks){
+            printf("\nZnaleziono studenta o indeksie %d\n", indeks);
+            s=pusta;
+            printf("\nPodaj imie: ");
+            fflush(stdin);
+            scanf("%20[^\n]c", &s.imie);
+            printf("\nPodaj nazwisko: ");
+            fflush(stdin);
+            scanf("%30[^\n]c", &s.nazwisko);
+            fflush(stdin);
+            printf("\nPodaj indeks: ");
+            scanf("%d", &s.numer);
+            printf("Podaj 5 ocen: ");
+            for(i=0; i<5; i++){
+                scanf("%lf", &s.oceny[i]);
+            }
+            s=srednia(s);
+            fseek(studenci, -sizeof(struct student), SEEK_CUR);
+            fwrite(&s, sizeof(struct student), 1, studenci);
+            break;
+        }
+    }
+    fclose(studenci);
 }
